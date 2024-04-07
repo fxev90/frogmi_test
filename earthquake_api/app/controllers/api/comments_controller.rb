@@ -1,6 +1,5 @@
 # app/controllers/api/v1/comments_controller.rb
 module Api
-    module V1
       class CommentsController < ApplicationController
         def create
           event = Earthquake.find(params[:feature_id])
@@ -18,6 +17,5 @@ module Api
           params.require(:data).permit(:body)
         end
       end
-    end
   end
   
