@@ -1,7 +1,7 @@
 
 module Api
-    module V1
-      class EarthquakeController < ApplicationController
+
+      class FeaturesController < ApplicationController
         def index
           events = Earthquake.all
           
@@ -49,5 +49,5 @@ module Api
           }
         end
       end
-    end
+
   end
