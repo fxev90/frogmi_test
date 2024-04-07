@@ -4,7 +4,12 @@ module Api
       class EarthquakeController < ApplicationController
         def index
           events = Earthquake.all
-          events = events.where(mag_type: params[:filters][:mag_type]) if params[:filters].present? && params[:filters][:mag_type].present?
+          
+          if params[:filters].present? && params[:filters][:mag_type].present?
+            mag_types = params[:filters][:mag_type].split(',')
+            events = events.where(mag_type: mag_types)
+          end
+
           per_page = (params[:per_page] || 10).to_i
           per_page = 1000 if per_page > 1000
           events = events.page(params[:page]).per(per_page)
