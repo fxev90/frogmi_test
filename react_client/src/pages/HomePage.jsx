@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback} from 'react';
 import { useGetFeatures } from '../api';
 import {
   Table,
@@ -17,10 +17,11 @@ const ITEMS_PER_PAGE = 10;
 
 
 const HomePage = () => {
+  const [perPage, setPerPage] = useState(ITEMS_PER_PAGE);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('md');
+  const [searchQuery, setSearchQuery] = useState('');
   const [mag, setMag] = useState("");
-  const { data, isLoading, error} = useGetFeatures({ mag_type: mag, page: currentPage });	
+  const { data, isLoading, error} = useGetFeatures({ mag_type: mag, page: currentPage, per_page: perPage });	
 
   const debouncedSearch = useCallback(
     debounce((searchTerm) => {
@@ -28,6 +29,13 @@ const HomePage = () => {
     }, 900),
     [setMag, mag]
   );
+
+  const pageChange = useCallback(
+    debounce((page) => {
+    setPerPage(page);
+  },700)
+  ,[]
+);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -137,6 +145,7 @@ const HomePage = () => {
         >
           Next
         </button>
+        <input type="" placeholder='number per pages'  onChange={(e) => pageChange(e.target.value)}/>
       </div>
     </div>
   );

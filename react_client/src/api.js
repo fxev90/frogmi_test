@@ -12,7 +12,8 @@ export const useGetFeatures =  (filters) => {
             const response = await api.get('/features', {
                 params: {
                     filters,
-                    page: filters?.page
+                    page: filters?.page,
+                    per_page: filters?.per_page
                 },
             });
             return response.data;
