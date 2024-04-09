@@ -5,13 +5,14 @@ const api = axios.create({
     baseURL: 'http://localhost:3000/api',
 });
 
-export const useGetFeatures = (filters) => {
+export const useGetFeatures =  (filters) => {
     return useQuery({
-        queryKey: ['features'],
+        queryKey: ['features', filters],
         queryFn: async () => {
             const response = await api.get('/features', {
                 params: {
                     filters,
+                    page: filters?.page
                 },
             });
             return response.data;
