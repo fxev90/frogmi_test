@@ -22,6 +22,17 @@ export const useGetFeatures =  (filters) => {
     );
 };
 
+export const useGetFeature = (featureId) => {
+    return useQuery({
+        queryKey: ['feature', featureId],
+        queryFn: async () => {
+            const response = await api.get(`/features/${featureId}`);
+            return response.data;
+        }
+    }
+    );
+};
+
 export const useCreateComment = () => {
     return useMutation({
         mutationFn: async (data) => {

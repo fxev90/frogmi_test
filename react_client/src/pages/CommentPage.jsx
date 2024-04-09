@@ -1,22 +1,34 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useCreateComment } from '../api';
+import { useCreateComment, useGetFeature } from '../api';
+import FeatureInfo from '../components/FeatureInfo';
+import Comment from '@/components/Comments';
 
 const CommentPage = () => {
   const { featureId } = useParams();
   const { mutate: createComment, isLoading, error } = useCreateComment();
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
+  const { data: feature, isLoading: isLoadingFeature, error: errorFeature, refetch}= useGetFeature(featureId);
+  const comments = feature?.included || [];
+  console.log(comments);
   const handleSubmit = (event) => {
     event.preventDefault();
     const body = event.target.elements.body.value;
     createComment({ featureId, body });
+    refetch();
   };
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4">Comments for Feature {featureId}</h1>
-
+      {isLoadingFeature ? (
+        <div>Loading feature...</div>
+      ) : errorFeature ? (
+        <div className="text-red-500">Error: {errorFeature.message}</div>
+      ) : (
+        <FeatureInfo feature={feature.data} />
+      )}
       {/* Comment form */}
       <div className="bg-white shadow-md rounded-md p-6 mb-6">
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,9 +83,14 @@ const CommentPage = () => {
           </svg>
         </div>
         {isCommentsOpen && (
-          <div className="mt-4">
-            {/* Add comment listing logic here */}
-            <p>No comments yet.</p>
+            <div className="mt-4">
+            {isLoadingFeature ? (
+              <div>Loading comments...</div>
+            ) : errorFeature ? (
+              <div className="text-red-500">Error: {errorFeature.message}</div>
+            ) : (
+              comments.map((comment) => <Comment key={comment.id} comment={comment} />)
+            )}
           </div>
         )}
       </div>
