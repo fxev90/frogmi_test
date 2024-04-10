@@ -6,17 +6,15 @@ import Comment from '@/components/Comments';
 
 const CommentPage = () => {
   const { featureId } = useParams();
-  const { mutate: createComment, isLoading, error } = useCreateComment();
-  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-
   const { data: feature, isLoading: isLoadingFeature, error: errorFeature, refetch}= useGetFeature(featureId);
+
+  const { mutate: createComment, isLoading, error } = useCreateComment(refetch);
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const comments = feature?.included || [];
-  console.log(comments);
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const body = event.target.elements.body.value;
     createComment({ featureId, body });
-    refetch();
   };
 
   return (

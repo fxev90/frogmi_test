@@ -1,6 +1,6 @@
+import { memo } from 'react';
 
-
-const FeatureInfo = ({ feature }) => {
+const FeatureInfo = memo(({ feature }) => {
     return (
       <div className="bg-white shadow-md rounded-md p-6 mb-6">
         <h2 className="text-lg font-medium mb-2">{feature.title}</h2>
@@ -27,6 +27,6 @@ const FeatureInfo = ({ feature }) => {
         </div>
       </div>
     );
-  };
+  });
 
 export default FeatureInfo

@@ -1,4 +1,6 @@
-const Comment = ({ comment }) => {
+import { memo } from 'react';
+
+const Comment = memo(({ comment }) => {
     return (
       <div className="bg-white shadow-md rounded-md p-4 mb-4">
         <p>{comment.attributes.body}</p>
@@ -7,6 +9,6 @@ const Comment = ({ comment }) => {
         </p>
       </div>
     );
-  };
+  });
 
 export default Comment

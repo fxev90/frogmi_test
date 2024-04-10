@@ -33,11 +33,14 @@ export const useGetFeature = (featureId) => {
     );
 };
 
-export const useCreateComment = () => {
+export const useCreateComment = (fnData) => {
     return useMutation({
         mutationFn: async (data) => {
             const response = await api.post(`/features/${data.featureId}/comments`, data);
             return response.data;
-        }
+        },
+        onSuccess: () => {
+            fnData();
+        },
     });
 };
