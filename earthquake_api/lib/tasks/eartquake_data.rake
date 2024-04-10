@@ -1,5 +1,5 @@
 namespace :earthquake_data do
-    desc "Fetch and persist earthquake data from USGS feed"
+    desc "Fetch and persist earthquake data"
     task fetch_and_persist: :environment do
       require 'net/http'
       require 'json'
