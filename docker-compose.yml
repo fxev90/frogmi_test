@@ -1,0 +1,41 @@
+version: '3.5'
+
+services:
+  db_frogmi:
+    image: postgres:latest
+    restart: on-failure
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}   
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - db_frogmi:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - frogmi-dev
+
+  #Backend Services
+  
+  earthquake_api:
+    build: ./earthquake_api/
+    restart: on-failure
+    depends_on:
+      - db_frogmi
+    ports: 
+      - "3000:3000"
+    volumes:
+      - .:/earthquake_api:delegated
+    networks:
+      - frogmi-dev
+
+
+#Volumes
+volumes:
+  db_frogmi:
+
+networks:
+  frogmi-dev: {}
