@@ -13,7 +13,8 @@ ENV RAILS_ENV="development" \
     BUNDLE_WITHOUT="development" \
     DB_NAME="ruby_test" \
     DB_USERNAME="ruby_user" \
-    DB_PASSWORD="123456789"
+    DB_PASSWORD="123456789" \
+    DB_HOST="db_frogmi"
 
 
 # Install packages needed to build gems
